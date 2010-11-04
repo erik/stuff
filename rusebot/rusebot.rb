@@ -28,9 +28,11 @@ loop do
         if input.include? "PRIVMSG"
             msg = input.split(" :").last.chomp
             if msg[0] == prepend[0]
-                cmd = `#{ruse} -e "#{msg[1..-1]}"`
+                cmd = `#{ruse} -e '#{msg[1..-1]}'`
                 puts cmd
-                send_message(chan, cmd)
+                cmd.split("\n").each { |line|
+                    send_message(chan, line)
+                }
             end
         end
     end
